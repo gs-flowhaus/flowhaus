@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>flowhaus — KI & Prozessautomatisierung</title>
+  <meta name="description" content="KI-gestützte Prozessautomatisierung für Unternehmen, die wachsen wollen. Mehr Kapazität — ohne mehr Personal." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:    #000000;
+      --white:    #ffffff;
+      --bg-alt:   #f7f7f7;
+      --border:   #e5e5e5;
+      --muted:    #737373;
+      --max-w:    1100px;
+      --px:       clamp(1.5rem, 5vw, 3rem);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--px);
+    }
+
+    /* ─── Nav ─────────────────────────────────────── */
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 54px;
+    }
+
+    .nav-logo {
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    .nav-link {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .nav-link:hover { color: var(--black); }
+
+    /* ─── Buttons ─────────────────────────────────── */
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.85rem 1.6rem;
+      background: var(--black);
+      color: var(--white);
+      font-family: inherit;
+      font-size: 0.83rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      border: 1.5px solid var(--black);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .btn svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+
+    .btn:hover svg { transform: translateX(3px); }
+
+    /* ─── Hero ────────────────────────────────────── */
+
+    .hero {
+      padding: clamp(6rem, 12vw, 10rem) 0 clamp(5rem, 9vw, 8rem);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .eyebrow {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.75rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(3.2rem, 8.5vw, 7.5rem);
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      line-height: 1.01;
+      max-width: 13ch;
+      margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+    }
+
+    .hero-sub {
+      font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+      color: var(--muted);
+      max-width: 48ch;
+      line-height: 1.7;
+      margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
+    }
+
+    /* ─── Sections ────────────────────────────────── */
+
+    .section {
+      padding: clamp(4.5rem, 8vw, 7.5rem) 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-alt { background: var(--bg-alt); }
+
+    .section-label {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: clamp(3rem, 5vw, 4.5rem);
+    }
+
+    .s-num, .s-title {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ─── Services ────────────────────────────────── */
+
+    .svc-question {
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      margin-bottom: 2rem;
+    }
+
+    .svc-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+    }
+
+    .svc-btn {
+      background: #0f0f0f;
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      padding: 1.6rem 1.8rem;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+
+    .svc-btn:hover { background: #1c1c1c; }
+    .svc-btn.active { background: #111; outline: 1.5px solid #333; }
+
+    .svc-btn-title {
+      display: block;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .svc-btn-body {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.35s ease, opacity 0.25s ease, margin-top 0.2s ease;
+      margin-top: 0;
+    }
+
+    .svc-btn.active .svc-btn-body {
+      max-height: 200px;
+      opacity: 1;
+      margin-top: 1rem;
+    }
+
+    .svc-btn-body p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.65;
+      padding-top: 0.85rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* ─── Process ─────────────────────────────────── */
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      border-top: 1px solid var(--border);
+    }
+
+    .step {
+      padding: 2rem 1.75rem 2rem 0;
+      border-right: 1px solid var(--border);
+    }
+
+    .step:last-child {
+      border-right: none;
+      padding-right: 0;
+    }
+
+    .step-num {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .step h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin-bottom: 0.55rem;
+    }
+
+    .step p {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─── Contact ─────────────────────────────────── */
+
+    .contact-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: end;
+      margin-bottom: 4rem;
+      padding-bottom: 3.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .contact-top h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+    }
+
+    .contact-top-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .contact-sub {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 2.5rem;
+    }
+
+    .field { margin-bottom: 1.75rem; }
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.55rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.55rem 0;
+      font-family: inherit;
+      font-size: 0.875rem;
+      color: var(--black);
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, textarea:focus { border-color: var(--black); }
+    textarea { resize: none; min-height: 72px; }
+
+    /* ─── Footer ──────────────────────────────────── */
+
+    footer {
+      padding: 2rem 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+
+    footer a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    footer a:hover { color: var(--black); }
+
+    /* ─── Responsive ──────────────────────────────── */
+
+    @media (max-width: 960px) {
+      .process-grid { grid-template-columns: repeat(3, 1fr); }
+      .step:nth-child(3) { border-right: none; padding-right: 0; }
+      .step:nth-child(n+4) {
+        border-top: 1px solid var(--border);
+        padding-top: 2rem;
+      }
+      .step:nth-child(6) { border-right: none; padding-right: 0; }
+      .step:nth-child(5) { border-right: 1px solid var(--border); }
+    }
+
+    @media (max-width: 680px) {
+      .svc-btns { grid-template-columns: 1fr; }
+
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .step:nth-child(3) { border-right: 1px solid var(--border); padding-right: 1.75rem; }
+      .step:nth-child(5) { border-right: 1px solid var(--border); padding-right: 1.75rem; }
+      .step:nth-child(2n) { border-right: none; padding-right: 0; }
+      .step:nth-child(n+3) { border-top: 1px solid var(--border); padding-top: 2rem; }
+
+      .contact-top { grid-template-columns: 1fr; gap: 2rem; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: 1; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="wrap nav-inner">
+      <a href="#" class="nav-logo">flowhaus</a>
+      <a href="#kontakt" class="nav-link">Gespräch anfragen</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">KI & Prozessautomatisierung</p>
+      <h1>Mehr Kapazität.<br>Ohne mehr Personal.</h1>
+      <p class="hero-sub">
+        Wir helfen Unternehmen, Prozesse zu automatisieren — damit Ihr Team
+        die Zeit zurückgewinnt, die wirklich zählt.
+      </p>
+      <a href="#" class="btn" onclick="return false;">
+        KI Potenzialanalyse sichern
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Leistungen -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-label">
+        <span class="s-num">01</span>
+        <span class="s-title">Leistungen</span>
+      </div>
+      <p class="svc-question">Was interessiert dich<br>am meisten?</p>
+      <div class="svc-btns">
+        <button class="svc-btn" onclick="toggleSvc(this)">
+          <span class="svc-btn-title">Prozessanalyse & Audit</span>
+          <div class="svc-btn-body">
+            <p>Wir analysieren Ihre Abläufe, identifizieren Engpässe und zeigen auf, wo Automatisierung den größten Mehrwert schafft.</p>
+          </div>
+        </button>
+        <button class="svc-btn" onclick="toggleSvc(this)">
+          <span class="svc-btn-title">KI-gestützte Automatisierung</span>
+          <div class="svc-btn-body">
+            <p>Intelligente Workflows, die wiederkehrende Aufgaben übernehmen und Prozesse dauerhaft effizienter machen.</p>
+          </div>
+        </button>
+        <button class="svc-btn" onclick="toggleSvc(this)">
+          <span class="svc-btn-title">Vertrieb, Marketing & Backoffice</span>
+          <div class="svc-btn-body">
+            <p>Systeme verbinden, Kundenkommunikation automatisieren, manuellen Aufwand in allen Bereichen reduzieren.</p>
+          </div>
+        </button>
+        <button class="svc-btn" onclick="toggleSvc(this)">
+          <span class="svc-btn-title">Integration bestehender Systeme</span>
+          <div class="svc-btn-body">
+            <p>Ihre Tools arbeiten nahtlos zusammen — Informationen fließen automatisch, ohne manuelle Eingriffe.</p>
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vorgehen -->
+  <section class="section section-alt">
+    <div class="wrap">
+      <div class="section-label">
+        <span class="s-num">02</span>
+        <span class="s-title">Vorgehen</span>
+      </div>
+      <div class="process-grid">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h3>Verstehen</h3>
+          <p>Ihr Unternehmen, Ihre Prozesse, Ihre Herausforderungen.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h3>Analysieren</h3>
+          <p>Abläufe mit hohem Automatisierungspotenzial priorisieren.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h3>Konzipieren</h3>
+          <p>Lösung entwickeln, Nutzen und Zeitersparnis transparent aufzeigen.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <h3>Umsetzen</h3>
+          <p>Technische Implementierung, nahtlos in bestehende Prozesse integriert.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">05</div>
+          <h3>Befähigen</h3>
+          <p>Team schulen, Einführung begleiten, Akzeptanz sichern.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">06</div>
+          <h3>Optimieren</h3>
+          <p>Ergebnisse messen, Lösung bei Bedarf weiterentwickeln.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kontakt -->
+  <section class="section" id="kontakt">
+    <div class="wrap">
+      <div class="section-label">
+        <span class="s-num">03</span>
+        <span class="s-title">Kontakt</span>
+      </div>
+      <div class="contact-top">
+        <h2>Jetzt Potenzial<br>entdecken.</h2>
+        <div class="contact-top-right">
+          <p class="contact-sub">
+            Kurz beschreiben, wo es hakt — wir melden uns innerhalb von
+            zwei Werktagen mit einer ersten Einschätzung.
+          </p>
+          <a href="#" class="btn" onclick="return false;">
+            KI Potenzialanalyse sichern
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <form action="mailto:hallo@flowhaus.tech" method="post" enctype="text/plain">
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+          <div class="field">
+            <label for="company">Unternehmen</label>
+            <input type="text" id="company" name="company" required />
+          </div>
+          <div class="field">
+            <label for="email">E-Mail</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="field full">
+            <label for="message">Was beschäftigt Sie?</label>
+            <textarea id="message" name="message" rows="3"></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn">
+          Nachricht senden
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-inner">
+        <span>&copy; 2026 flowhaus</span>
+        <a href="mailto:hallo@flowhaus.tech">hallo@flowhaus.tech</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleSvc(btn) {
+      const isActive = btn.classList.contains('active');
+      document.querySelectorAll('.svc-btn').forEach(b => b.classList.remove('active'));
+      if (!isActive) btn.classList.add('active');
+    }
+  </script>
+</body>
+</html>
